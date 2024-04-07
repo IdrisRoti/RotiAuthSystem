@@ -116,7 +116,7 @@ export default function SignUpForm() {
         <div className="flex items-center">
         <MdErrorOutline size={13} className="mr-1 text-red-700" />
                 {/* @ts-ignore */}
-        <p className="text-xs text-red-700">{errors.check?.message}</p>
+        <p className="text-xs text-red-600 dark:opacity-70">{errors.check?.message}</p>
       </div>
       ): (<div className="flex items-center">
       <MdErrorOutline size={13} className="mr-1 opacity-0" />
@@ -124,7 +124,7 @@ export default function SignUpForm() {
       <p className="text-xs opacity-0">.</p>
     </div>)}
       </div>
-      <button className="bg-green-600 py-3 px-3 rounded-md text-white font-medium">
+      <button className="bg-green-600 py-2 px-3 rounded-md text-white font-medium">
         Sign Up
       </button>
     </form>

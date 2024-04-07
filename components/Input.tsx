@@ -17,7 +17,7 @@ const Input = ({label, name, type, placeholder, register, errors}: TInput) => {
         {label}
       </label>
       <input
-        className="w-full mt-2 border-2 placeholder:text-sm border-slate-300 p-2 rounded-md focus:border-green-600 focus:border-2 focus:outline-none"
+        className="w-full mt-2 border-2 placeholder:text-sm border-slate-300 dark:border-slate-600 p-2 rounded-md dark:focus:border-green-600 focus:border-green-600 focus:border-2 focus:outline-none dark:bg-slate-800"
         type={type}
         id={name}
         placeholder={placeholder}
@@ -29,12 +29,12 @@ const Input = ({label, name, type, placeholder, register, errors}: TInput) => {
         <div className="flex items-center">
         <MdErrorOutline size={13} className="mr-1 text-red-700" />
         {/* @ts-ignore */}
-        <p className="text-xs text-red-700">{errors[name]?.message}</p>
+        <p className="text-xs text-red-600 dark:opacity-70">{errors[name]?.message}</p>
       </div>
       ): (<div className="flex items-center">
         <MdErrorOutline size={13} className="opacity-0" />
         {/* @ts-ignore */}
-        <p className="text-xs text-red-700">.</p>
+        <p className="text-xs text-red-700 opacity-0">.</p>
       </div>)}
 
 
