@@ -7,10 +7,13 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import validator from "validator"
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from 'react-hot-toast';
 import { MdErrorOutline } from "react-icons/md";
+import axios from "axios";
 
 export default function SignUpForm() {
   const [showPass, setShowPass] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleShowPass = () => {
     setShowPass((prev) => !prev);
@@ -39,9 +42,23 @@ export default function SignUpForm() {
     {resolver: zodResolver(formSchema)}
   );
 
-  const onSubmit:SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-    reset()
+  const onSubmit:SubmitHandler<FieldValues> = async (data) => {
+    setIsLoading(true)
+    const {name, password, email, phone} = data
+    console.log(name, password, email, phone);
+    
+    try {
+      const result = await axios.post("/api/register", {name, password, email, phone})
+      console.log(result)
+      reset()
+      setIsLoading(false)
+      toast.success("Success")
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+      toast.error("Something went wrong")
+    }
+    
   };
 
   return (
@@ -124,8 +141,8 @@ export default function SignUpForm() {
       <p className="text-xs opacity-0">.</p>
     </div>)}
       </div>
-      <button className="bg-green-600 py-2 px-3 rounded-md text-white font-medium">
-        Sign Up
+      <button disabled={isLoading} className="bg-green-600 py-2 px-3 rounded-md text-white font-medium diasbled:cursor-not-allowed disabled:opacity-50">
+        {isLoading ? "Please wait..." : "Sign Up"}
       </button>
     </form>
   );

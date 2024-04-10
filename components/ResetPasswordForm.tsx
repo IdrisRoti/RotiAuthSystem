@@ -82,13 +82,13 @@ const ResetPasswordForm = () => {
 
       {/* CONFIRM PASSWORD */}
       <div className="mt-1 relative">
-        <label htmlFor="email" className="text-sm font-semibold">
+        <label htmlFor="confirmPass" className="text-sm font-semibold">
           Confirm your Password
         </label>
         <input
           className="w-full mt-2 border-2 placeholder:text-sm border-slate-300 dark:border-slate-600 p-2 rounded-md dark:focus:border-green-600 focus:border-green-600 focus:border-2 focus:outline-none dark:bg-slate-800"
           type={showPass ? "text" : "password"}
-          id="password"
+          id="confirmPass"
           placeholder="Enter your Password"
           {...register("confirmPassword")}
         />

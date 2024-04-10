@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from 'react-hot-toast';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/providers/ThemeProvider";
@@ -23,6 +24,7 @@ export default function RootLayout({
           <main className="min-h-screen grid place-items-center dark:bg-slate-900 dark:text-slate-300">
             {children}
           </main>
+          <Toaster />
           <ThemeToggler />
         </ThemeProvider>
       </body>
