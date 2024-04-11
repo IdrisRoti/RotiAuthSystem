@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/providers/ThemeProvider";
 import ThemeToggler from "@/components/ThemeToggler";
+import AuthProvider from "@/providers/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,13 +21,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider>
-          <main className="min-h-screen grid place-items-center dark:bg-slate-900 dark:text-slate-300">
-            {children}
-          </main>
-          <Toaster />
-          <ThemeToggler />
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <main className="min-h-screen grid place-items-center dark:bg-slate-900 dark:text-slate-300">
+              {children}
+            </main>
+            <Toaster />
+            <ThemeToggler />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

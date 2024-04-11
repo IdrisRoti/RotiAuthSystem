@@ -1,25 +1,31 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdErrorOutline } from "react-icons/md";
 import { z } from "zod";
 
 const SignInForm = () => {
   const [showPass, setShowPass] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter()
 
   const handleShowPass = () => {
     setShowPass((prev) => !prev);
   };
 
-const formSchema = z.object({
-  email: z.string().email("Please input a valid email!"),
-  password: z.string().min(8, "Password must be at least 8 characters!")
-})
+  const formSchema = z.object({
+    email: z.string().email("Please input a valid email!"),
+    password: z.string().min(8, "Password must be at least 8 characters!"),
+  });
 
-type InputType = z.infer<typeof formSchema>
+  type InputType = z.infer<typeof formSchema>;
 
   const {
     register,
@@ -27,15 +33,36 @@ type InputType = z.infer<typeof formSchema>
     handleSubmit,
     formState: { errors },
   } = useForm<InputType>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
   });
 
-
-
-  const onSubmit:SubmitHandler<InputType> = (data)=>{
-      console.log(data)
-      reset()
-  }
+  const onSubmit: SubmitHandler<InputType> = async (data) => {
+    const { email, password } = data;
+    console.log("Details:", { email, password });
+    try {
+      setIsLoading(true);
+      const response:any = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if(!response.ok) {
+        toast.error(response.error),
+        setIsLoading(false)
+        console.log(response);
+        return
+      }
+      console.log(response);
+      toast.success("Login successfull");
+      setIsLoading(false);
+      reset();
+      router.push("/")
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+      setIsLoading(false);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,8 +132,11 @@ type InputType = z.infer<typeof formSchema>
           </div>
         )}
       </div>
-      <button className="bg-green-600 py-2 px-3 rounded-md text-white font-medium w-full mt-3">
-        Sign Up
+      <button
+        disabled={isLoading}
+        className="bg-green-600 py-2 px-3 rounded-md text-white font-medium w-full mt-3 diasbled:cursor-not-allowed disabled:opacity-50"
+      >
+        {isLoading ? "Please wait..." : "Log in"}
       </button>
     </form>
   );

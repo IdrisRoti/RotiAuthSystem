@@ -1,7 +1,15 @@
 import SignUpForm from "@/components/SignUpForm";
+import { getSession } from "@/libs/getSession";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function page() {
+export default async function page() {
+
+  const session =await getSession()
+  console.log(session)
+  if(session?.user){
+    redirect("/");
+  }
 
   return (
     <div className="shadow-lg bg-white sm:h-auto sm:w-[60%] lg:w-[40%] w-full h-full py-12 px-4 sm:rounded-lg dark:bg-slate-800">
