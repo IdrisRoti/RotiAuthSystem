@@ -56,7 +56,7 @@ const SignInForm = () => {
       toast.success("Login successfull");
       setIsLoading(false);
       reset();
-      router.push("/")
+      router.refresh()
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong!");
