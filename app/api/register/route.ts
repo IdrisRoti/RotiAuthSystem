@@ -1,6 +1,9 @@
 import prisma from "@/libs/prismaDb";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { uuid } from "uuidv4";
+import base64url from "base64url";
+import { SendMail, compileWelcomeTemplate } from "@/libs/SendMail";
 
 export async function POST(req: Request) {
   const { name, email, phone, password } = await req.json();
@@ -24,7 +27,18 @@ export async function POST(req: Request) {
       data: { name, email, phone, password:hashedPassword },
     });
 
-    // SEND VERIFICATION MAIL
+    //*************************** SEND VERIFICATION MAIL *********************************************/ 
+    // CREATE RAW TOKEN
+    const rawToken = uuid()
+    console.log("Raw Token: ", rawToken)
+
+    // ENCODING RAW TOKEN WITH BASE64 URL-SAFE FORMAT
+    const token = base64url.encode(rawToken)
+    console.log("Token: ", token)
+    // SEND MAIL
+    const url =`${process.env.NEXTAUTH_URL}sign-in?token=${token}&id=${newUser.id}`
+    await SendMail({to:newUser.email, subject:"Verify Your Email", body:compileWelcomeTemplate(newUser.name, url )})
+
 
     return NextResponse.json(newUser, { status: 201 });
   } catch (error) {

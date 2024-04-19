@@ -8,7 +8,7 @@ const page = async () => {
   const session = await getSession();
   console.log(session)
 
-  await SendMail({to:"idrisomisakin@gmail.com", subject:"Test", body:"Hello world"})
+  // await SendMail({to:"idrisomisakin@gmail.com", subject:"Test", body:"Hello world"})
 
   // if(!session) redirect("sign-in")
 

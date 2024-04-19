@@ -1,9 +1,11 @@
+import * as handlebars from "handlebars"
 import nodemailer from "nodemailer"
+import { WelcomeTemplate } from "./EmailTemplate/Welcome";
 
 type MailType = {
     to: string,
     subject:string,
-    body: string
+    body: string,
 }
 
 export async function SendMail({to, subject, body}:MailType) {
@@ -22,10 +24,19 @@ export async function SendMail({to, subject, body}:MailType) {
         from:SMTP_EMAIL,
         to,
         subject,
-        html:body
+        html: body
     })
     console.log(result)
   } catch (error) {
     console.log(error)
   }
+}
+
+export function compileWelcomeTemplate(name:string, url:string){
+  const template = handlebars.compile(WelcomeTemplate);
+  const htmlBody = template({
+    name:name,
+    url:url
+  })
+  return htmlBody;
 }
