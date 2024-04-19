@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { uuid } from "uuidv4";
 import base64url from "base64url";
-import { SendMail, compileWelcomeTemplate } from "@/libs/SendMail";
+import { SendMail, compileEmailTemplate } from "@/libs/SendMail";
 
 export async function POST(req: Request) {
   const { name, email, phone, password } = await req.json();
@@ -37,8 +37,7 @@ export async function POST(req: Request) {
     console.log("Token: ", token)
     // SEND MAIL
     const url =`${process.env.NEXTAUTH_URL}sign-in?token=${token}&id=${newUser.id}`
-    await SendMail({to:newUser.email, subject:"Verify Your Email", body:compileWelcomeTemplate(newUser.name, url )})
-
+    await SendMail({to:newUser.email, subject:"Verify Your Email", body:compileEmailTemplate(newUser.name, url, "Verify your email", "Please click on the button below to verify your account" )})
 
     return NextResponse.json(newUser, { status: 201 });
   } catch (error) {

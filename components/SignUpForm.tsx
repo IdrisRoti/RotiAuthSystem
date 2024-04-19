@@ -54,7 +54,7 @@ export default function SignUpForm() {
       setIsLoading(false)
       toast.success("Success")
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       setIsLoading(false)
       toast.error("Something went wrong")
     }
