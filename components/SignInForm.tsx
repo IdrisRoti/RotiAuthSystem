@@ -10,7 +10,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdErrorOutline } from "react-icons/md";
 import { z } from "zod";
 
-const SignInForm = () => {
+const SignInForm = ({token}:{token: string | string[] | undefined}) => {
   const [showPass, setShowPass] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -133,7 +133,7 @@ const SignInForm = () => {
         )}
       </div>
       <button
-        disabled={isLoading}
+        disabled={isLoading || token !== undefined}
         className="bg-green-600 py-2 px-3 rounded-md text-white font-medium w-full mt-3 diasbled:cursor-not-allowed disabled:opacity-50"
       >
         {isLoading ? "Please wait..." : "Log in"}

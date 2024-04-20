@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { MdErrorOutline } from 'react-icons/md';
 import { z } from 'zod';
 
-const VerifyAccountForm = ({token}:{token: string | string[] | undefined}) => {
+const VerifyAccountForm = () => {
 
   const formSchema = z.object({
     email: z.string().email("Please enter a valid email")
@@ -53,7 +53,7 @@ const VerifyAccountForm = ({token}:{token: string | string[] | undefined}) => {
         )}
       </div>
       
-      <button disabled={token !== undefined} className="bg-green-600 py-2 px-3 rounded-md text-white font-medium w-full mt-3 disabled:opacity-40 disabled:cursor-not-allowed">
+      <button className="bg-green-600 py-2 px-3 rounded-md text-white font-medium w-full mt-3 disabled:opacity-40 disabled:cursor-not-allowed">
         Verify
       </button>
     </form>

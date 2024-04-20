@@ -1,17 +1,8 @@
 import EmailSent from "@/components/EmailSent";
 import VerifyAccountForm from "@/components/VerifyAccountForm";
 
-type SearchParamsType = {
-  searchParams: { 
-    token: string | string[] | undefined,
-    id: string | string[] | undefined,
-  };
-};
-
-export default function page({ searchParams }: SearchParamsType) {
+export default function page() {
   const emailSent = true;
-
-  const { token, id } = searchParams;
 
   return (
     <div className="shadow-lg bg-white sm:h-auto sm:w-[60%] lg:w-[40%] w-full h-full py-12 px-4 sm:rounded-lg dark:bg-slate-800">
@@ -22,7 +13,7 @@ export default function page({ searchParams }: SearchParamsType) {
         Enter your registered email to receive the verification link
       </p>
       {emailSent && <EmailSent label="verify your account" />}
-      <VerifyAccountForm token={token} />
+      <VerifyAccountForm />
     </div>
   );
 }

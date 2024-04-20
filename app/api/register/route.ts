@@ -35,8 +35,17 @@ export async function POST(req: Request) {
     // ENCODING RAW TOKEN WITH BASE64 URL-SAFE FORMAT
     const token = base64url.encode(rawToken)
     console.log("Token: ", token)
+
+    await prisma.user.update({
+      where:{
+        id:newUser.id
+      },
+      data:{
+        verificationToken:token
+      }
+    })
     // SEND MAIL
-    const url =`${process.env.NEXTAUTH_URL}sign-in?token=${token}&id=${newUser.id}`
+    const url =`${process.env.NEXTAUTH_URL}sign-in?token=${token}&email=${newUser.email}`
     await SendMail({to:newUser.email, subject:"Verify Your Email", body:compileEmailTemplate(newUser.name, url, "Verify your email", "Please click on the button below to verify your account" )})
 
     return NextResponse.json(newUser, { status: 201 });
