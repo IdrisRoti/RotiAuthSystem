@@ -26,7 +26,7 @@ export async function SendMail({to, subject, body}:MailType) {
         subject,
         html: body
     })
-    console.log(result)
+    console.log("Mail result: ", result)
   } catch (error) {
     console.log(error)
   }

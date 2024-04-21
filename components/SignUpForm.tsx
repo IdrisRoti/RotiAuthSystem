@@ -49,7 +49,7 @@ export default function SignUpForm() {
     
     try {
       const result = await axios.post("/api/register", {name, password, email, phone})
-      console.log(result)
+      console.log(result.request.status)
       setIsLoading(false)
       reset()
       toast.success("Account created successfully.")

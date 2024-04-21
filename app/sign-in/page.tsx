@@ -30,11 +30,13 @@ export default function page({ searchParams }: SearchParamsType) {
     async function verifyUser() {
       if (token !== undefined && email !== undefined) {
         try {
+          // toast.loading("Verifying your account please wait...")
           const result = await axios.post(
-            `${process.env.NEXTAUTH_URL}/api/verify-account`,
+            "/api/verify-account",
             { token, email }
           );
           console.log("Verification result: ", result);
+          console.log("Verification result status: ", result.status);
           toast.success("Your account has been verified successfully.")
           router.push("/sign-in")
         } catch (error) {
