@@ -1,16 +1,10 @@
 import SigninBtn from "@/components/SigninBtn";
 import SignoutBtn from "@/components/SignoutBtn";
-import { SendMail } from "@/libs/SendMail";
 import { getSession } from "@/libs/getSession";
-import { redirect } from "next/navigation";
 
 const page = async () => {
   const session = await getSession();
   console.log(session)
-
-  // await SendMail({to:"idrisomisakin@gmail.com", subject:"Test", body:"Hello world"})
-
-  // if(!session) redirect("sign-in")
 
   return (
     <main>

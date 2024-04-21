@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       }
     })
     // SEND MAIL
-    const url =`${process.env.NEXTAUTH_URL}sign-in?token=${token}&email=${newUser.email}`
+    const url =`${process.env.NEXTAUTH_URL}?token=${token}&email=${newUser.email}`
     await SendMail({to:newUser.email, subject:"Verify Your Email", body:compileEmailTemplate(newUser.name, url, "Verify your email", "Please click on the button below to verify your account" )})
 
     return NextResponse.json(newUser, { status: 201 });

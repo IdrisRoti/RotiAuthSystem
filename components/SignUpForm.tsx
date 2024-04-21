@@ -50,9 +50,13 @@ export default function SignUpForm() {
     try {
       const result = await axios.post("/api/register", {name, password, email, phone})
       console.log(result)
-      reset()
       setIsLoading(false)
-      toast.success("Success")
+      reset()
+      toast.success("Account created successfully.")
+      toast.success("A verification link has been sent to the Email you provided, click on the link to verify your account. Yoou can also check your spam folder for the link.", {
+        duration: 10000,
+        position: "top-center"
+      })
     } catch (error) {
       console.log(error)
       setIsLoading(false)
