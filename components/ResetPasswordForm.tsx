@@ -7,7 +7,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { MdErrorOutline } from "react-icons/md";
+import { MdErrorOutline, MdFormatListBulleted } from "react-icons/md";
 import { z } from "zod";
 
 type PropsType = {
@@ -17,6 +17,9 @@ type PropsType = {
 
 const ResetPasswordForm = ({ email, token }: PropsType) => {
   const [showPass, setShowPass] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+
   const router = useRouter()
 
   const handleShowPass = () => {
@@ -49,20 +52,27 @@ const ResetPasswordForm = ({ email, token }: PropsType) => {
   const onSubmit: SubmitHandler<InputType> = async (data) => {
     console.log(data);
     try {
+      setIsLoading(true)
       const result = await axios.post("/api/resetPassword", {
         password: data.password,
         email,
         token,
       });
       console.log("Result from reset pass: ", result);
+      setIsLoading(false)
       toast.success("Password reset successful")
       reset();
       router.push("/sign-in")
     } catch (error) {
+      setIsLoading(false)
       console.log(error)
       toast.error("Something went wrong!")
     }
   };
+
+  if(!token && !email){
+    router.push("/")
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -135,7 +145,7 @@ const ResetPasswordForm = ({ email, token }: PropsType) => {
       </div>
 
       <button className="bg-green-600 py-2 px-3 rounded-md text-white font-medium w-full mt-3">
-        Change Password
+        {isLoading ? "A minute please" : "Change Password"}
       </button>
     </form>
   );

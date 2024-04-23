@@ -6,7 +6,7 @@ const ResetPassBtn = () => {
   const router = useRouter();
 
   const resetPassword = () => {
-    router.push("/reset-pass");
+    router.push("/verify-account");
   };
 
   return (

@@ -6,11 +6,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { MdErrorOutline } from "react-icons/md";
 import { z } from "zod";
 import EmailSent from "./EmailSent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const VerifyAccountForm = () => {
   const [emailSent, setEmailSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const formSchema = z.object({
     email: z.string().email("Please enter a valid email"),
@@ -30,16 +31,24 @@ const VerifyAccountForm = () => {
   const onSubmit: SubmitHandler<InputType> = async (data) => {
     console.log(data);
     try {
+      setIsLoading(true)
       // SEND MAIL THAT CONTAINS RESET PASSWORD LINK AND RESET PASSWORD TOKEN
       const result = await axios.post("/api/sendMail", { email: data.email });
       console.log("From verify account: ", result);
+      setIsLoading(false)
       setEmailSent(true);
       reset();
     } catch (error) {
       console.log(error);
+      setIsLoading(false)
       toast.error("Something went wrong!");
     }
   };
+
+  useEffect(() => {
+    setEmailSent(false)
+  }, [])
+  
 
   return (
     <div className="shadow-lg bg-white sm:h-auto sm:w-[60%] lg:w-[40%] w-full h-full py-12 px-4 sm:rounded-lg dark:bg-slate-800">
@@ -77,7 +86,7 @@ const VerifyAccountForm = () => {
         </div>
 
         <button className="bg-green-600 py-2 px-3 rounded-md text-white font-medium w-full mt-3 disabled:opacity-40 disabled:cursor-not-allowed">
-          Verify
+          {isLoading? "A minute please..." : "Verify"}
         </button>
       </form>
     </div>

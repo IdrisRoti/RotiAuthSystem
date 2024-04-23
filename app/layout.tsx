@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <ThemeProvider>
-            <main className="min-h-screen grid place-items-center dark:bg-slate-900 dark:text-slate-300 p-4">
+            <main className="min-h-screen grid place-items-center dark:bg-slate-900 dark:text-slate-300 md:p-4">
               {children}
             </main>
             <Toaster />
