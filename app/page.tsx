@@ -7,8 +7,8 @@ const page = async () => {
   console.log(session)
 
   return (
-    <main>
-      {session?.user && <div className="bg-green-200 px-3 py-3 rounded-md mb-3">Your Account {session?.user.emailVerified ? "is" : "is not"} verified!</div>}
+    <main className="p-4">
+      {session?.user && <div className="border border-green-300 bg-green-50 rounded-lg p-4 opacity-70 mb-3 text-center dark:bg-green-200 dark:bg-opacity-50 font-semibold dark:text-white">Your Account {session?.user.emailVerified ? "is" : "is not"} verified!</div>}
       <div className="font-light text-3xl">
         Hi {session?.user.name}, Welcome to our{" "}
         <span className="text-green-700 font-bold">Auth System</span>

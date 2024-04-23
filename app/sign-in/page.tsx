@@ -3,6 +3,7 @@
 import ResetPassBtn from "@/components/ResetPassBtn";
 import SignInForm from "@/components/SignInForm";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -16,13 +17,14 @@ type SearchParamsType = {
 };
 
 export default function page({ searchParams }: SearchParamsType) {
-  // const session =await getSession()
-
-  // if(session?.user){
-  //   redirect("/");
-  // }
+  const {data:session, status} = useSession()
 
   const router = useRouter()
+
+  if(session?.user || status === "authenticated"){
+    router.push("/")
+  }
+
 
   const { token, email } = searchParams;
 
