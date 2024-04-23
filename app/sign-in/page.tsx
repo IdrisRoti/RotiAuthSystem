@@ -59,7 +59,7 @@ export default function SignIn({ searchParams }: SearchParamsType) {
       <SignInForm />
       <div className="mt-1 flex items-center justify-between">
         <span className="text-xs">
-          Don't have an account ?{" "}
+          Dont have an account ?{" "}
           <Link className="font-bold underline font-green-600" href="/sign-up">
             Sign Up
           </Link>
