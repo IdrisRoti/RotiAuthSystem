@@ -16,7 +16,7 @@ type SearchParamsType = {
   };
 };
 
-export default function page({ searchParams }: SearchParamsType) {
+export default function SignIn({ searchParams }: SearchParamsType) {
   const {data:session, status} = useSession()
 
   const router = useRouter()
