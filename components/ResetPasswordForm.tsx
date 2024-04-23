@@ -1,44 +1,68 @@
-"use client"
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { MdErrorOutline } from 'react-icons/md';
-import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { MdErrorOutline } from "react-icons/md";
+import { z } from "zod";
 
-const ResetPasswordForm = ({email}:{email?: string | string[] | undefined}) => {
-    const [showPass, setShowPass] = useState(false);
+type PropsType = {
+  email?: string | string[] | undefined;
+  token?: string | string[] | undefined;
+};
 
-    const handleShowPass = () => {
-        setShowPass((prev) => !prev);
-      };
+const ResetPasswordForm = ({ email, token }: PropsType) => {
+  const [showPass, setShowPass] = useState(false);
+  const router = useRouter()
 
-  const formSchema = z.object({
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string().min(8, "Password must be at least 8 characters")
-  }).refine(data=>data.confirmPassword === data.password, {
-    message: "Password and confirm password must match!",
-    path: ["confirmPassword"]
-  })
+  const handleShowPass = () => {
+    setShowPass((prev) => !prev);
+  };
 
-  type InputType = z.infer<typeof formSchema>
+  const formSchema = z
+    .object({
+      password: z.string().min(8, "Password must be at least 8 characters"),
+      confirmPassword: z
+        .string()
+        .min(8, "Password must be at least 8 characters"),
+    })
+    .refine((data) => data.confirmPassword === data.password, {
+      message: "Password and confirm password must match!",
+      path: ["confirmPassword"],
+    });
 
-    const {
-        register,
-        reset,
-        handleSubmit,
-        formState: { errors },
-      } = useForm<InputType>({
-        resolver: zodResolver(formSchema)
+  type InputType = z.infer<typeof formSchema>;
+
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<InputType>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit: SubmitHandler<InputType> = async (data) => {
+    console.log(data);
+    try {
+      const result = await axios.post("/api/resetPassword", {
+        password: data.password,
+        email,
+        token,
       });
-
-      const onSubmit:SubmitHandler<InputType> = async (data)=>{
-        console.log(data)
-        const result = await axios.post("/api/")
-        reset()
+      console.log("Result from reset pass: ", result);
+      toast.success("Password reset successful")
+      reset();
+      router.push("/sign-in")
+    } catch (error) {
+      console.log(error)
+      toast.error("Something went wrong!")
     }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -109,12 +133,12 @@ const ResetPasswordForm = ({email}:{email?: string | string[] | undefined}) => {
           </div>
         )}
       </div>
-      
+
       <button className="bg-green-600 py-2 px-3 rounded-md text-white font-medium w-full mt-3">
         Change Password
       </button>
     </form>
-  )
-}
+  );
+};
 
 export default ResetPasswordForm;

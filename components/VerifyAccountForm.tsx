@@ -7,6 +7,7 @@ import { MdErrorOutline } from "react-icons/md";
 import { z } from "zod";
 import EmailSent from "./EmailSent";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const VerifyAccountForm = () => {
   const [emailSent, setEmailSent] = useState(false);
@@ -28,11 +29,16 @@ const VerifyAccountForm = () => {
 
   const onSubmit: SubmitHandler<InputType> = async (data) => {
     console.log(data);
-    // SEND MAIL THAT CONTAINS RESET PASSWORD LINK AND RESET PASSWORD TOKEN
-    const result = await axios.post("/api/sendMail", {email: data.email});
-    console.log("From verify account: ", result);
-    setEmailSent(true);
-    reset();
+    try {
+      // SEND MAIL THAT CONTAINS RESET PASSWORD LINK AND RESET PASSWORD TOKEN
+      const result = await axios.post("/api/sendMail", { email: data.email });
+      console.log("From verify account: ", result);
+      setEmailSent(true);
+      reset();
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+    }
   };
 
   return (
