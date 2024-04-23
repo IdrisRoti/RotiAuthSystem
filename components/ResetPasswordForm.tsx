@@ -1,13 +1,14 @@
 "use client"
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { MdErrorOutline } from 'react-icons/md';
 import { z } from 'zod';
 
-const ResetPasswordForm = () => {
+const ResetPasswordForm = ({email}:{email?: string | string[] | undefined}) => {
     const [showPass, setShowPass] = useState(false);
 
     const handleShowPass = () => {
@@ -33,8 +34,9 @@ const ResetPasswordForm = () => {
         resolver: zodResolver(formSchema)
       });
 
-      const onSubmit:SubmitHandler<InputType> = (data)=>{
+      const onSubmit:SubmitHandler<InputType> = async (data)=>{
         console.log(data)
+        const result = await axios.post("/api/")
         reset()
     }
 

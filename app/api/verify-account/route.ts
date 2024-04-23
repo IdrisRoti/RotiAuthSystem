@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     });
 
     if (!userExists) {
-        return NextResponse.json({ message: "Email does not exist" }, { status: 404 });
+        return NextResponse.json({ message: "Email is not registeredt" }, { status: 404 });
     }
 
     const tokenMatch = userExists.verificationToken === token
