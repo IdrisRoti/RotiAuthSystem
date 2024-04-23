@@ -53,7 +53,7 @@ export default function SignUpForm() {
       setIsLoading(false)
       reset()
       toast.success("Account created successfully.")
-      toast.success("A verification link has been sent to the Email you provided, click on the link to verify your account. Yoou can also check your spam folder for the link.", {
+      toast.success("A verification link has been sent to the Email you provided, click on the link to verify your account. You can also check your spam folder for the link.", {
         duration: 10000,
         position: "top-center"
       })
