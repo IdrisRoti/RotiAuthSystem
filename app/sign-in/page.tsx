@@ -35,7 +35,7 @@ export default function SignIn({ searchParams }: SearchParamsType) {
           // toast.loading("Verifying your account please wait...")
           const result = await axios.post(
             "/api/verify-account",
-            { token, email, router }
+            { token, email }
           );
           console.log("Verification result: ", result);
           console.log("Verification result status: ", result.status);
@@ -49,7 +49,7 @@ export default function SignIn({ searchParams }: SearchParamsType) {
     }
 
     verifyUser()
-  }, [email, token]);
+  }, [email, token, router]);
 
   return (
     <div className="shadow-lg bg-white sm:h-auto sm:w-[60%] lg:w-[40%] w-full h-full py-12 px-4 sm:rounded-lg dark:bg-slate-800">
