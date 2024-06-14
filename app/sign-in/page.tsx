@@ -42,7 +42,7 @@ export default function SignIn({ searchParams }: SearchParamsType) {
       setIsLoading(false)
       console.log(error);
       toast.error(
-        "We couldn't verify your account at this time. Please try again"
+        "We couldn't verify your account at this time. Please try again later"
       );
     }
   }
