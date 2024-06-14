@@ -38,7 +38,7 @@ const SignInForm = () => {
 
   const onSubmit: SubmitHandler<InputType> = async (data) => {
     const { email, password } = data;
-    console.log("Details:", { email, password });
+    console.log("Sign Up Details:", { email, password });
     try {
       setIsLoading(true);
       const response:any = await signIn("credentials", {
